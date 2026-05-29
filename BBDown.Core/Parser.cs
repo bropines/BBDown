@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using BBDown.Core.Util;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -192,11 +192,37 @@ public static partial class Parser
 
             // DRM metadata
             if (root.TryGetProperty("is_drm", out var isDrmElem))
-                parsedResult.IsDrm = isDrmElem.GetBoolean();
+            {
+                parsedResult.IsDrm = isDrmElem.ValueKind switch
+                {
+                    JsonValueKind.True => true,
+                    JsonValueKind.False => false,
+                    JsonValueKind.Number => isDrmElem.TryGetInt32(out var isDrmVal) && isDrmVal != 0,
+                    JsonValueKind.String => isDrmElem.GetString() == "true" || isDrmElem.GetString() == "1",
+                    _ => false
+                };
+            }
             if (root.TryGetProperty("drm_tech_type", out var techElem))
-                parsedResult.DrmTechType = techElem.GetInt32();
+            {
+                parsedResult.DrmTechType = techElem.ValueKind switch
+                {
+                    JsonValueKind.Number => techElem.TryGetInt32(out var techVal) ? techVal : 0,
+                    JsonValueKind.String => int.TryParse(techElem.GetString(), out var techValStr) ? techValStr : 0,
+                    _ => 0
+                };
+            }
             if (root.TryGetProperty("drm_type", out var typeElem))
-                parsedResult.DrmType = typeElem.GetString() ?? "";
+            {
+                parsedResult.DrmType = typeElem.ValueKind switch
+                {
+                    JsonValueKind.String => typeElem.GetString() ?? "",
+                    JsonValueKind.Number => typeElem.ToString(),
+                    JsonValueKind.True => "true",
+                    JsonValueKind.False => "false",
+                    JsonValueKind.Object or JsonValueKind.Array => typeElem.GetRawText(),
+                    _ => ""
+                };
+            }
             if (parsedResult.IsDrm) Logger.LogDebug("DRM detected: type={0}, tech={1}", parsedResult.DrmType, parsedResult.DrmTechType);
 
             //免二压视频需要重新请求
