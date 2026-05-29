@@ -162,11 +162,11 @@ public static partial class Parser
         var data = respJson.RootElement;
         // 根据API版本自动定位数据节点
         JsonElement root;
-        if (data.TryGetProperty("result", out var resultElem))
+        if (data.TryGetProperty("result", out var resultElem) && resultElem.ValueKind == JsonValueKind.Object)
         {
-            root = resultElem.TryGetProperty("video_info", out var vi) ? vi : resultElem;
+            root = resultElem.TryGetProperty("video_info", out var vi) && vi.ValueKind == JsonValueKind.Object ? vi : resultElem;
         }
-        else if (data.TryGetProperty("data", out var dataElem))
+        else if (data.TryGetProperty("data", out var dataElem) && dataElem.ValueKind == JsonValueKind.Object)
         {
             root = dataElem;
         }
@@ -235,21 +235,27 @@ public static partial class Parser
                 respJson.Dispose();
                 respJson = JsonDocument.Parse(parsedResult.WebJsonString);
                 var newRoot = respJson.RootElement;
-                root = newRoot.TryGetProperty("result", out var rr) && rr.TryGetProperty("video_info", out var vvii) ? vvii :
-                       newRoot.TryGetProperty("result", out var rr2) ? rr2 :
-                       newRoot.TryGetProperty("data", out var dd) ? dd : newRoot;
+                root = newRoot.TryGetProperty("result", out var rr) && rr.ValueKind == JsonValueKind.Object && rr.TryGetProperty("video_info", out var vvii) && vvii.ValueKind == JsonValueKind.Object ? vvii :
+                       newRoot.TryGetProperty("result", out var rr2) && rr2.ValueKind == JsonValueKind.Object ? rr2 :
+                       newRoot.TryGetProperty("data", out var dd) && dd.ValueKind == JsonValueKind.Object ? dd : newRoot;
             }
-            if (root.TryGetProperty("dash", out var dash) && dash.TryGetProperty("video", out var vidArr))
-                video = vidArr.EnumerateArray().ToList();
-            if (root.TryGetProperty("dash", out dash) && dash.TryGetProperty("audio", out var audArr))
-                audio = audArr.EnumerateArray().ToList();
+            if (root.ValueKind == JsonValueKind.Object && root.TryGetProperty("dash", out var dash) && dash.ValueKind == JsonValueKind.Object)
+            {
+                if (dash.TryGetProperty("video", out var vidArr) && vidArr.ValueKind == JsonValueKind.Array)
+                    video = vidArr.EnumerateArray().ToList();
+                if (dash.TryGetProperty("audio", out var audArr) && audArr.ValueKind == JsonValueKind.Array)
+                    audio = audArr.EnumerateArray().ToList();
+            }
 
             if (appApi && bangumi)
             {
-                if (data.TryGetProperty("dubbing_info", out var dub) && dub.TryGetProperty("background_audio", out var bgArr))
-                    backgroundAudio = bgArr.EnumerateArray().ToList();
-                if (data.TryGetProperty("dubbing_info", out dub) && dub.TryGetProperty("role_audio_list", out var roleArr))
-                    roleAudio = roleArr.EnumerateArray().ToList();
+                if (data.TryGetProperty("dubbing_info", out var dub) && dub.ValueKind == JsonValueKind.Object)
+                {
+                    if (dub.TryGetProperty("background_audio", out var bgArr) && bgArr.ValueKind == JsonValueKind.Array)
+                        backgroundAudio = bgArr.EnumerateArray().ToList();
+                    if (dub.TryGetProperty("role_audio_list", out var roleArr) && roleArr.ValueKind == JsonValueKind.Array)
+                        roleAudio = roleArr.EnumerateArray().ToList();
+                }
             }
             //处理杜比音频
             try
