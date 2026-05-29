@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using BBDown.Core.Util;
 using BBDown.Core;
 using System.Collections.Generic;
@@ -28,13 +28,13 @@ public static partial class BBDownUtil
             string latestVer = redirectUrl.Replace("https://github.com/AliverAnme/BBDown/releases/tag/", "");
             if (nowVer != latestVer && !latestVer.StartsWith("https"))
             {
-                Console.Title = $"发现新版本：{latestVer}";
-                Logger.LogColor($"发现新版本：{latestVer}");
+                Console.Title = Localizer.GetString("new_ver_found", latestVer);
+                Logger.LogColor(Localizer.GetString("new_ver_found", latestVer));
             }
         }
         catch (Exception ex) when (ex is HttpRequestException)
         {
-            Logger.LogDebug("检查更新失败: {0}", ex.Message);
+            Logger.LogDebug(Localizer.GetString("check_update_err", ex.Message));
         }
     }
     public static Task<string> GetAvIdAsync(string input) => UrlResolver.ResolveAsync(input);
@@ -247,7 +247,7 @@ public static partial class BBDownUtil
         }
         catch (Exception ex) when (ex is HttpRequestException or JsonException or KeyNotFoundException)
         {
-            Logger.LogDebug("获取章节信息失败: {0}", ex.Message);
+            Logger.LogDebug(Localizer.GetString("get_chapter_info_failed", ex.Message));
         }
         return points;
     }
@@ -325,7 +325,7 @@ public static partial class BBDownUtil
             int code = json.GetPropertySafe("code").GetInt32();
             if (code == -101)
             {
-                Logger.LogDebug("Cookie 已过期或无效 (code=-101)");
+                Logger.LogDebug(Localizer.GetString("cookie_expired"));
                 return (false, true);
             }
             var is_login = json.GetPropertySafe("data").GetPropertySafe("isLogin").GetBoolean();
@@ -336,7 +336,7 @@ public static partial class BBDownUtil
         }
         catch (Exception ex) when (ex is HttpRequestException or JsonException or KeyNotFoundException or InvalidOperationException)
         {
-            Logger.LogDebug("检测登录状态失败: {0}", ex.Message);
+            Logger.LogDebug(Localizer.GetString("login_check_err", ex.Message));
             return (false, false);
         }
     }

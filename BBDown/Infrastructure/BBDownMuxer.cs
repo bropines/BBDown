@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using BBDown.Core.Util;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -44,7 +44,7 @@ static partial class BBDownMuxer
         if (!p.WaitForExit(muxTimeoutMinutes * 60_000))
         {
             try { p.Kill(); } catch { /* ignore kill failures */ }
-            throw new TimeoutException($"{app} 混流操作超过 {muxTimeoutMinutes} 分钟未结束，已强制终止。请检查输入文件是否损坏或磁盘空间是否不足。");
+            throw new TimeoutException(Localizer.GetString("mux_timeout_err", app, muxTimeoutMinutes));
         }
         return p.ExitCode;
     }
@@ -144,7 +144,7 @@ static partial class BBDownMuxer
         if (audioMaterial.Any())
         {
             byte audioCount = 0;
-            metaArg.Append("-metadata:s:a:0 title=\"原音频\" ");
+            metaArg.Append($"-metadata:s:a:0 title=\"{Localizer.GetString("original_audio")}\" ");
             foreach (var audio in audioMaterial)
             {
                 inputCount++;

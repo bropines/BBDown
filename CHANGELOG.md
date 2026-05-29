@@ -1,3 +1,5 @@
+[English](CHANGELOG.en.md) | [Русский](CHANGELOG.ru.md) | [简体中文](CHANGELOG.md)
+
 # 变更日志
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 规范，版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。

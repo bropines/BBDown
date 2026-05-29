@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -35,7 +35,7 @@ partial class Program
         }
         catch (Exception ex) when (ex is ArgumentOutOfRangeException or FormatException)
         {
-            Logger.LogError($"格式化日期出错: {ex.Message}");
+            Logger.LogError(Localizer.GetString("date_format_err", ex.Message));
             return ts.ToString();
         }
     }
@@ -46,7 +46,7 @@ partial class Program
 
     private static void Console_CancelKeyPress(object? sender, ConsoleCancelEventArgs e)
     {
-        Logger.LogWarn("Force Exit...");
+        Logger.LogWarn(Localizer.GetString("force_exit"));
         try
         {
             Console.ResetColor();
@@ -60,6 +60,7 @@ partial class Program
 
     public static async Task<int> Main(params string[] args)
     {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.CancelKeyPress += Console_CancelKeyPress;
 
         Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -67,10 +68,23 @@ partial class Program
         var ver = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version!;
         Console.Write($"BBDown version {ver.Major}.{ver.Minor}.{ver.Build}, Bilibili Downloader.\r\n");
         Console.ResetColor();
-        Console.Write("遇到问题请首先到以下地址查阅有无相关信息：\r\nhttps://github.com/AliverAnme/BBDown/issues\r\n");
-        Console.WriteLine();
-
         var mergedArgs = BBDownConfigParser.MergeWithConfig(args).ToArray();
+
+        // Parse locale parameter
+        for (int i = 0; i < mergedArgs.Length; i++)
+        {
+            if (mergedArgs[i].StartsWith("--locale=", StringComparison.OrdinalIgnoreCase))
+            {
+                Localizer.CultureName = mergedArgs[i].Substring(9);
+            }
+            else if (mergedArgs[i].Equals("--locale", StringComparison.OrdinalIgnoreCase) && i + 1 < mergedArgs.Length)
+            {
+                Localizer.CultureName = mergedArgs[i + 1];
+            }
+        }
+
+        Console.Write(Localizer.GetString("welcome_msg") + "\r\nhttps://github.com/AliverAnme/BBDown/issues\r\n");
+        Console.WriteLine();
 
         if (mergedArgs.Contains("--debug"))
         {
@@ -90,18 +104,18 @@ partial class Program
                 Console.ForegroundColor = ConsoleColor.White;
                 var msg = Config.Current.DebugLog ? ex.ToString() : ex.Message;
                 Console.Error.WriteLine(msg);
-                Console.Error.WriteLine("请尝试升级到最新版本后重试!");
+                Console.Error.WriteLine(Localizer.GetString("upgrade_retry"));
                 Console.ResetColor();
                 try { Console.CursorVisible = true; } catch { }
                 return 1;
             });
 
             config.AddCommand<LoginCommand>("login")
-                  .WithDescription("通过APP扫描二维码以登录您的WEB账号");
+                  .WithDescription(Localizer.GetString("cmd_login"));
             config.AddCommand<LoginTVCommand>("logintv")
-                  .WithDescription("通过APP扫描二维码以登录您的TV账号");
+                  .WithDescription(Localizer.GetString("cmd_logintv"));
             config.AddCommand<ServeCommand>("serve")
-                  .WithDescription("以服务器模式运行");
+                  .WithDescription(Localizer.GetString("cmd_serve"));
         });
 
         return await app.RunAsync(mergedArgs);

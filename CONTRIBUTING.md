@@ -1,3 +1,5 @@
+[English](CONTRIBUTING.en.md) | [Русский](CONTRIBUTING.ru.md) | [简体中文](CONTRIBUTING.md)
+
 # 贡献指南
 
 感谢你对 BBDown 项目的兴趣！在提交贡献之前，请阅读本指南。

@@ -1,24 +1,24 @@
-## 描述
-<!-- 一句话描述这个 PR 做了什么 -->
+## Description / 描述
+<!-- Description of what this PR does / 一句话描述这个 PR 做了什么 -->
 
-## 改动类型
-<!-- 请勾选适用的选项 -->
-- [ ] Bug 修复
-- [ ] 新功能
-- [ ] 代码重构
-- [ ] 性能优化
-- [ ] 文档更新
-- [ ] 依赖升级
-- [ ] 其他：
+## Type of Change / 改动类型
+<!-- Please check the applicable options / 请勾选适用的选项 -->
+- [ ] Bug Fix / Bug 修复
+- [ ] New Feature / 新功能
+- [ ] Code Refactor / 代码重构
+- [ ] Performance Optimization / 性能优化
+- [ ] Documentation Update / 文档更新
+- [ ] Dependency Upgrade / 依赖升级
+- [ ] Other / 其他：
 
-## 检查清单
-<!-- 提交前请确认 -->
-- [ ] `dotnet build` 在本地通过（0 Error）
-- [ ] `dotnet test` 通过（如有测试）
-- [ ] 已同步更新相关文档（README / CHANGELOG 等）
-- [ ] Issue 编号（如适用）：#
+## Checklist / 检查清单
+<!-- Confirm before submitting / 提交前请确认 -->
+- [ ] `dotnet build` passes locally / 本地编译通过 (0 Errors)
+- [ ] `dotnet test` passes if applicable / 测试通过 (如有测试)
+- [ ] Documentation updated / 已同步更新相关文档 (README / CHANGELOG)
+- [ ] Issue Number / Issue 编号 (if applicable / 如适用): #
 
-## 测试说明
-<!-- 描述你是如何测试这个改动的 -->
+## Test Instructions / 测试说明
+<!-- Describe how you tested this change / 描述你是如何测试这个改动的 -->
 
-## 截图 / 日志（如适用）
+## Screenshots or Logs / 截图与日志 (if applicable / 如适用)

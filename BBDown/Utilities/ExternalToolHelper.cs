@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using BBDown.Core;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using BBDown.Core.Util;
 
 namespace BBDown;
 
@@ -36,7 +37,7 @@ public static class ExternalToolHelper
         }
         catch (Exception ex) when (ex is IOException or InvalidOperationException or FormatException)
         {
-            Logger.LogDebug("检测ffmpeg版本失败: {0}", ex.Message);
+            Logger.LogDebug(Localizer.GetString("ffmpeg_DolbyVision_check_failed", ex.Message));
         }
         return false;
     }

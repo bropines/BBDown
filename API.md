@@ -1,3 +1,5 @@
+[English](API.en.md) | [Русский](API.ru.md) | [简体中文](API.md)
+
 # JSON API文档
 
 ## API

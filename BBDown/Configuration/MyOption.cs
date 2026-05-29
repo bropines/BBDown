@@ -8,248 +8,252 @@ namespace BBDown;
 public class MyOption : CommandSettings
 {
     [CommandArgument(0, "<URL>")]
-    [Description("视频地址 或 av|bv|BV|ep|ss")]
+    [LocalizedDescription("opt_url")]
     public string Url { get; set; } = "";
 
     [CommandOption("-t|--use-tv-api")]
-    [Description("使用TV端解析模式")]
+    [LocalizedDescription("opt_use_tv_api")]
     public bool UseTvApi { get; set; }
 
     [CommandOption("-a|--use-app-api")]
-    [Description("使用APP端解析模式")]
+    [LocalizedDescription("opt_use_app_api")]
     public bool UseAppApi { get; set; }
 
     [CommandOption("--use-intl-api")]
-    [Description("使用国际版(东南亚视频)解析模式")]
+    [LocalizedDescription("opt_use_intl_api")]
     public bool UseIntlApi { get; set; }
 
     [CommandOption("--use-mp4box")]
-    [Description("使用MP4Box来混流")]
+    [LocalizedDescription("opt_use_mp4box")]
     public bool UseMP4box { get; set; }
 
     [CommandOption("-e|--encoding-priority")]
-    [Description("视频及音频编码的选择优先级, 用逗号分割 例: \"hevc,av1,avc,flac,eac3,m4a\"")]
+    [LocalizedDescription("opt_encoding_priority")]
     public string? EncodingPriority { get; set; }
 
     [CommandOption("-q|--dfn-priority")]
-    [Description("画质优先级,用逗号分隔 例: \"8K 超高清, 1080P 高码率, HDR 真彩, 杜比视界\"")]
+    [LocalizedDescription("opt_dfn_priority")]
     public string? DfnPriority { get; set; }
 
     [CommandOption("-I|--only-show-info")]
-    [Description("仅解析而不进行下载")]
+    [LocalizedDescription("opt_only_show_info")]
     public bool OnlyShowInfo { get; set; }
 
     [CommandOption("--show-all")]
-    [Description("展示所有分P标题")]
+    [LocalizedDescription("opt_show_all")]
     public bool ShowAll { get; set; }
 
     [CommandOption("--use-aria2c")]
-    [Description("调用aria2c进行下载(你需要自行准备好二进制可执行文件)")]
+    [LocalizedDescription("opt_use_aria2c")]
     public bool UseAria2c { get; set; }
 
     [CommandOption("-i|--interactive")]
-    [Description("交互式选择清晰度")]
+    [LocalizedDescription("opt_interactive")]
     public bool Interactive { get; set; }
 
     [CommandOption("--hide-streams")]
-    [Description("不要显示所有可用音视频流")]
+    [LocalizedDescription("opt_hide_streams")]
     public bool HideStreams { get; set; }
 
     [CommandOption("--multi-thread")]
-    [Description("使用多线程下载(默认开启)")]
+    [LocalizedDescription("opt_multi_thread")]
     public bool MultiThread { get; set; } = true;
 
     [CommandOption("--simply-mux")]
-    [Description("精简混流，不增加描述、作者等信息")]
+    [LocalizedDescription("opt_simply_mux")]
     public bool SimplyMux { get; set; } = false;
 
     [CommandOption("--video-only")]
-    [Description("仅下载视频")]
+    [LocalizedDescription("opt_video_only")]
     public bool VideoOnly { get; set; }
 
     [CommandOption("--audio-only")]
-    [Description("仅下载音频")]
+    [LocalizedDescription("opt_audio_only")]
     public bool AudioOnly { get; set; }
 
     [CommandOption("--danmaku-only")]
-    [Description("仅下载弹幕")]
+    [LocalizedDescription("opt_danmaku_only")]
     public bool DanmakuOnly { get; set; }
 
     [CommandOption("--cover-only")]
-    [Description("仅下载封面")]
+    [LocalizedDescription("opt_cover_only")]
     public bool CoverOnly { get; set; }
 
     [CommandOption("--sub-only")]
-    [Description("仅下载字幕")]
+    [LocalizedDescription("opt_sub_only")]
     public bool SubOnly { get; set; }
 
     [CommandOption("--debug")]
-    [Description("输出调试日志")]
+    [LocalizedDescription("opt_debug")]
     public bool Debug { get; set; }
 
     [CommandOption("--skip-mux")]
-    [Description("跳过混流步骤")]
+    [LocalizedDescription("opt_skip_mux")]
     public bool SkipMux { get; set; }
 
     [CommandOption("--insecure")]
-    [Description("跳过SSL证书验证(仅用于抓包/代理场景)")]
+    [LocalizedDescription("opt_insecure")]
     public bool Insecure { get; set; }
 
     [CommandOption("--decrypt-drm")]
-    [Description("尝试解密DRM保护视频")]
+    [LocalizedDescription("opt_decrypt_drm")]
     public bool DecryptDrm { get; set; }
 
     [CommandOption("--key")]
-    [Description("DRM解密密钥 (hex)")]
+    [LocalizedDescription("opt_drm_key")]
     public string? DrmKeyHex { get; set; }
 
     [CommandOption("--kid")]
-    [Description("DRM密钥ID (hex)")]
+    [LocalizedDescription("opt_drm_kid")]
     public string? DrmKidHex { get; set; }
 
     [CommandOption("--mp4decrypt-path")]
-    [Description("设置mp4decrypt的路径")]
+    [LocalizedDescription("opt_mp4decrypt_path")]
     public string Mp4decryptPath { get; set; } = "";
 
     [CommandOption("--wvd-path")]
-    [Description("设置device.wvd的路径")]
+    [LocalizedDescription("opt_wvd_path")]
     public string WvdPath { get; set; } = "";
 
     [CommandOption("--skip-subtitle")]
-    [Description("跳过字幕下载")]
+    [LocalizedDescription("opt_skip_subtitle")]
     public bool SkipSubtitle { get; set; }
 
     [CommandOption("--skip-cover")]
-    [Description("跳过封面下载")]
+    [LocalizedDescription("opt_skip_cover")]
     public bool SkipCover { get; set; }
 
     [CommandOption("--force-http")]
-    [Description("下载音视频时强制使用HTTP协议替换HTTPS(默认开启)")]
+    [LocalizedDescription("opt_force_http")]
     public bool ForceHttp { get; set; } = true;
 
     [CommandOption("-d|--download-danmaku")]
-    [Description("下载弹幕")]
+    [LocalizedDescription("opt_download_danmaku")]
     public bool DownloadDanmaku { get; set; } = false;
 
     [CommandOption("--download-danmaku-formats")]
-    [Description("指定需下载的弹幕格式, 用逗号分隔")]
+    [LocalizedDescription("opt_download_danmaku_formats")]
     public string? DownloadDanmakuFormats { get; set; }
 
     [CommandOption("--skip-ai")]
-    [Description("跳过AI字幕下载(默认开启)")]
+    [LocalizedDescription("opt_skip_ai")]
     public bool SkipAi { get; set; } = true;
 
     [CommandOption("--video-ascending")]
-    [Description("视频升序(最小体积优先)")]
+    [LocalizedDescription("opt_video_ascending")]
     public bool VideoAscending { get; set; } = false;
 
     [CommandOption("--audio-ascending")]
-    [Description("音频升序(最小体积优先)")]
+    [LocalizedDescription("opt_audio_ascending")]
     public bool AudioAscending { get; set; } = false;
 
     [CommandOption("--allow-pcdn")]
-    [Description("不替换PCDN域名, 仅在正常情况与--upos-host均无法下载时使用")]
+    [LocalizedDescription("opt_allow_pcdn")]
     public bool AllowPcdn { get; set; } = false;
 
     [CommandOption("-F|--file-pattern")]
-    [Description("使用内置变量自定义单P存储文件名")]
+    [LocalizedDescription("opt_file_pattern")]
     public string FilePattern { get; set; } = "";
 
     [CommandOption("-M|--multi-file-pattern")]
-    [Description("使用内置变量自定义多P存储文件名")]
+    [LocalizedDescription("opt_multi_file_pattern")]
     public string MultiFilePattern { get; set; } = "";
 
     [CommandOption("-p|--select-page")]
-    [Description("选择指定分p或分p范围: (-p 8 或 -p 1,2 或 -p 3-5 或 -p ALL 或 -p LAST 或 -p 3,5,LATEST)")]
+    [LocalizedDescription("opt_select_page")]
     public string SelectPage { get; set; } = "";
 
     [CommandOption("--language")]
-    [Description("设置混流的音频语言(代码), 如chi, jpn等")]
+    [LocalizedDescription("opt_language")]
     public string Language { get; set; } = "";
 
     [CommandOption("-u|--user-agent")]
-    [Description("指定user-agent, 否则使用随机user-agent")]
+    [LocalizedDescription("opt_user_agent")]
     public string UserAgent { get; set; } = "";
 
     [CommandOption("-c|--cookie")]
-    [Description("设置字符串cookie用以下载网页接口的会员内容")]
+    [LocalizedDescription("opt_cookie")]
     public string Cookie { get; set; } = "";
 
     [CommandOption("--access-token")]
-    [Description("设置access_token用以下载TV/APP接口的会员内容")]
+    [LocalizedDescription("opt_access_token")]
     public string AccessToken { get; set; } = "";
 
     [CommandOption("--aria2c-args")]
-    [Description("调用aria2c的附加参数")]
+    [LocalizedDescription("opt_aria2c_args")]
     public string Aria2cArgs { get; set; } = "";
 
     [CommandOption("--work-dir")]
-    [Description("设置程序的工作目录")]
+    [LocalizedDescription("opt_work_dir")]
     public string WorkDir { get; set; } = "";
 
     [CommandOption("--ffmpeg-path")]
-    [Description("设置ffmpeg的路径")]
+    [LocalizedDescription("opt_ffmpeg_path")]
     public string FFmpegPath { get; set; } = "";
 
     [CommandOption("--mp4box-path")]
-    [Description("设置mp4box的路径")]
+    [LocalizedDescription("opt_mp4box_path")]
     public string Mp4boxPath { get; set; } = "";
 
     [CommandOption("--aria2c-path")]
-    [Description("设置aria2c的路径")]
+    [LocalizedDescription("opt_aria2c_path")]
     public string Aria2cPath { get; set; } = "";
 
     [CommandOption("--upos-host")]
-    [Description("自定义upos服务器")]
+    [LocalizedDescription("opt_upos_host")]
     public string UposHost { get; set; } = "";
 
     [CommandOption("--force-replace-host")]
-    [Description("强制替换下载服务器host(默认开启)")]
+    [LocalizedDescription("opt_force_replace_host")]
     public bool ForceReplaceHost { get; set; } = true;
 
     [CommandOption("--save-archives-to-file")]
-    [Description("将下载过的视频记录到本地文件中, 用于后续跳过下载同个视频")]
+    [LocalizedDescription("opt_save_archives")]
     public bool SaveArchivesToFile { get; set; } = false;
 
     [CommandOption("--delay-per-page")]
-    [Description("设置下载合集分P之间的下载间隔时间(单位: 秒, 默认无间隔)")]
+    [LocalizedDescription("opt_delay_per_page")]
     public int DelayPerPage { get; set; } = 0;
 
     [CommandOption("--muxer-timeout")]
-    [Description("混流超时时长(分钟, 默认30)")]
+    [LocalizedDescription("opt_muxer_timeout")]
     public int MuxerTimeout { get; set; } = 30;
 
     [CommandOption("--retry-count")]
-    [Description("网络请求失败后的重试次数(默认3)")]
+    [LocalizedDescription("opt_retry_count")]
     public int RetryCount { get; set; } = 3;
 
     [CommandOption("--retry-delay")]
-    [Description("重试间隔基础毫秒数(默认3000)")]
+    [LocalizedDescription("opt_retry_delay")]
     public int RetryDelay { get; set; } = 3000;
 
     [CommandOption("--thread-segment-size")]
-    [Description("多线程下载时分片大小(MB, 默认20)")]
+    [LocalizedDescription("opt_thread_segment")]
     public int ThreadSegmentSize { get; set; } = 20;
 
     [CommandOption("--host")]
-    [Description("指定BiliPlus host")]
+    [LocalizedDescription("opt_host")]
     public string Host { get; set; } = "api.bilibili.com";
 
     [CommandOption("--ep-host")]
-    [Description("指定BiliPlus EP host")]
+    [LocalizedDescription("opt_ep_host")]
     public string EpHost { get; set; } = "api.bilibili.com";
 
     [CommandOption("--tv-host")]
-    [Description("自定义tv端接口请求Host")]
+    [LocalizedDescription("opt_tv_host")]
     public string TvHost { get; set; } = "api.snm0516.aisee.tv";
 
     [CommandOption("--area")]
-    [Description("(hk|tw|th) 使用BiliPlus时必选, 指定BiliPlus area")]
+    [LocalizedDescription("opt_area")]
     public string Area { get; set; } = "";
 
     [CommandOption("--config-file")]
-    [Description("读取指定的BBDown本地配置文件")]
+    [LocalizedDescription("opt_config_file")]
     public string? ConfigFile { get; set; }
+
+    [CommandOption("--locale")]
+    [LocalizedDescription("opt_locale")]
+    public string Locale { get; set; } = "";
 
     // 以下仅为兼容旧版本命令行，不建议使用
     [CommandOption("--aria2c-proxy", IsHidden = true)]

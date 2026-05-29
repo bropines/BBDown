@@ -9,11 +9,11 @@ namespace BBDown.Commands;
 public class ServeSettings : CommandSettings
 {
     [CommandOption("-l|--listen")]
-    [Description("服务器监听url")]
+    [LocalizedDescription("opt_listen")]
     public string ListenUrl { get; set; } = "http://0.0.0.0:23333";
 
     [CommandOption("--max-concurrent")]
-    [Description("最大并发下载数(默认3)")]
+    [LocalizedDescription("opt_max_concurrent")]
     public int MaxConcurrent { get; set; } = 3;
 }
 

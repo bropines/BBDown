@@ -1,3 +1,5 @@
+[English](CODE_OF_CONDUCT.en.md) | [Русский](CODE_OF_CONDUCT.ru.md) | [简体中文](CODE_OF_CONDUCT.md)
+
 # 社区行为准则
 
 本项目致力于提供一个友好、包容、无骚扰的协作环境。

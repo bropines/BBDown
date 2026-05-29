@@ -1,3 +1,5 @@
+[English](SECURITY.en.md) | [Русский](SECURITY.ru.md) | [简体中文](SECURITY.md)
+
 # 安全政策
 
 ## 支持的版本

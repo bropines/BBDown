@@ -20,7 +20,7 @@ public static partial class UrlResolver
             if (input.Contains("b23.tv"))
             {
                 string tmp = await HTTPUtil.GetWebLocationAsync(input);
-                if (tmp == input) throw new InvalidOperationException("无限重定向");
+                if (tmp == input) throw new InvalidOperationException(Localizer.GetString("infinite_redirect"));
                 input = tmp;
             }
             if (input.Contains("video/av"))
@@ -125,7 +125,7 @@ public static partial class UrlResolver
                 var epList = jDoc.RootElement.EnumerateArraySafe("epList");
                 var firstEp = epList.FirstOrDefault();
                 if (firstEp.ValueKind == System.Text.Json.JsonValueKind.Undefined)
-                    throw new InvalidOperationException("未找到任何分P信息");
+                    throw new InvalidOperationException(Localizer.GetString("no_page_info"));
                 string epId = firstEp.GetValueAsStringSafe("id");
                 avid = $"ep:{epId}";
             }
@@ -177,7 +177,7 @@ public static partial class UrlResolver
         }
         else
         {
-            throw new ArgumentException("输入有误：无法识别的视频 URL 或 ID");
+            throw new ArgumentException(Localizer.GetString("invalid_url_id"));
         }
         return await FixAvidAsync(avid);
     }
@@ -212,7 +212,7 @@ public static partial class UrlResolver
         var episodes = jDoc.RootElement.GetPropertySafe("data").EnumerateArraySafe("episodes");
         var firstEp = episodes.FirstOrDefault();
         if (firstEp.ValueKind == System.Text.Json.JsonValueKind.Undefined)
-            throw new InvalidOperationException("未找到课程分P信息");
+            throw new InvalidOperationException(Localizer.GetString("no_course_page"));
         return firstEp.GetValueAsStringSafe("id");
     }
 
@@ -224,7 +224,7 @@ public static partial class UrlResolver
         var episodes = jDoc.RootElement.GetPropertySafe("result").EnumerateArraySafe("episodes");
         var firstEp = episodes.FirstOrDefault();
         if (firstEp.ValueKind == System.Text.Json.JsonValueKind.Undefined)
-            throw new InvalidOperationException("未找到番剧分P信息");
+            throw new InvalidOperationException(Localizer.GetString("no_bangumi_page"));
         return firstEp.GetValueAsStringSafe("id");
     }
 

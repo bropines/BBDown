@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -80,39 +80,39 @@ internal partial class Program
         // 检测是否登录了账号
         if (myOption is { UseIntlApi: false, UseTvApi: false } && Config.Current.Area == "")
         {
-            Logger.Log("检测账号登录...");
+            Logger.Log(Localizer.GetString("check_login"));
             var (isLoggedIn, cookieExpired) = await BBDownUtil.CheckLoginWithDetails(Config.Current.Cookie);
             if (!isLoggedIn)
             {
                 if (cookieExpired)
                 {
                     Logger.LogWarn("========================================");
-                    Logger.LogWarn("  Cookie 已过期！");
-                    Logger.LogWarn("  请运行 BBDown login 重新扫码登录以获取新 Cookie。");
-                    Logger.LogWarn("  或者使用 --use-tv-api 配合 --access-token 下载。");
+                    Logger.LogWarn(Localizer.GetString("cookie_expired_warn1"));
+                    Logger.LogWarn(Localizer.GetString("cookie_expired_warn2"));
+                    Logger.LogWarn(Localizer.GetString("cookie_expired_warn3"));
                     Logger.LogWarn("========================================");
                 }
                 else
                 {
                     Logger.LogWarn("========================================");
-                    Logger.LogWarn("  你尚未登录B站账号！");
-                    Logger.LogWarn("  未登录状态下仅能下载6分钟试看片段。");
-                    Logger.LogWarn("  请运行 BBDown login 扫码登录以获取完整视频。");
+                    Logger.LogWarn(Localizer.GetString("not_logged_in_warn1"));
+                    Logger.LogWarn(Localizer.GetString("not_logged_in_warn2"));
+                    Logger.LogWarn(Localizer.GetString("not_logged_in_warn3"));
                     Logger.LogWarn("========================================");
                 }
             }
         }
 
-        Logger.Log("获取aid...");
+        Logger.Log(Localizer.GetString("get_aid"));
         aidOri = await UrlResolver.ResolveAsync(input);
-        Logger.Log($"获取aid结束: {aidOri}");
+        Logger.Log(Localizer.GetString("get_aid_end", aidOri));
 
         if (string.IsNullOrEmpty(aidOri))
         {
-            throw new ArgumentException("输入有误：无法识别的视频 URL 或 ID");
+            throw new ArgumentException(Localizer.GetString("invalid_url_id"));
         }
 
-        Logger.Log("获取视频信息...");
+        Logger.Log(Localizer.GetString("get_video_info"));
         IFetcher fetcher = FetcherFactory.CreateFetcher(aidOri, myOption.UseIntlApi);
         VInfo? vInfo = null;
 
@@ -126,42 +126,42 @@ internal partial class Program
             // B站返回非番剧JSON结构（可能是课程），尝试按课程查找
             if (aidOri.StartsWith("cheese:")) throw; // 已经按课程查找过，不再重复尝试
 
-            Logger.LogWarn("未找到此 EP/SS 对应番剧信息, 正在尝试按课程查找。");
+            Logger.LogWarn(Localizer.GetString("ep_ss_not_found_bangumi"));
 
             aidOri = aidOri.Replace("ep", "cheese");
-            Logger.Log("新的 aid: " + aidOri);
+            Logger.Log(Localizer.GetString("new_aid", aidOri));
 
             if (string.IsNullOrEmpty(aidOri))
             {
-                throw new ArgumentException("输入有误：无法获取视频信息");
+                throw new ArgumentException(Localizer.GetString("get_video_info_err"));
             }
 
-            Logger.Log("获取视频信息...");
+            Logger.Log(Localizer.GetString("get_video_info"));
             fetcher = FetcherFactory.CreateFetcher(aidOri, myOption.UseIntlApi);
             vInfo = await fetcher.FetchAsync(aidOri);
         }
 
         string title = vInfo.Title;
         long pubTime = vInfo.PubTime;
-        Logger.LogColor("视频标题: " + title);
+        Logger.LogColor(Localizer.GetString("video_title", title));
         if (pubTime != 0)
         {
-            Logger.Log("发布时间: " + FormatTimeStamp(pubTime, "yyyy-MM-dd HH:mm:ss zzz"));
+            Logger.Log(Localizer.GetString("pub_time", FormatTimeStamp(pubTime, "yyyy-MM-dd HH:mm:ss zzz")));
         }
         var bvid = vInfo.PagesInfo.FirstOrDefault()?.bvid;
         if (!string.IsNullOrEmpty(bvid) && !myOption.UseIntlApi)
         {
-            Logger.Log($"视频URL: https://www.bilibili.com/video/{bvid}/");
+            Logger.Log(Localizer.GetString("video_url", $"https://www.bilibili.com/video/{bvid}/"));
         }
         var mid = vInfo.PagesInfo.FirstOrDefault(p => !string.IsNullOrEmpty(p.ownerMid))?.ownerMid;
         if (!string.IsNullOrEmpty(mid))
         {
-            Logger.Log($"UP主页: https://space.bilibili.com/{mid}");
+            Logger.Log(Localizer.GetString("up_space", $"https://space.bilibili.com/{mid}"));
         }
 
         if (vInfo.IsSteinGate && myOption.UseTvApi)
         {
-            Logger.Log("视频为互动视频，暂时不支持tv下载，修改为默认下载");
+            Logger.Log(Localizer.GetString("interactive_video_warn"));
             myOption.UseTvApi = false;
         }
         string apiType = myOption.UseTvApi ? "TV" : (myOption.UseAppApi ? "APP" : (myOption.UseIntlApi ? "INTL" : "WEB"));
